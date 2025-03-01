@@ -1,2 +1,5 @@
 nltk
 datasets
+matplotlib
+python-dotenv
+scikit-learn
