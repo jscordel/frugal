@@ -169,3 +169,4 @@ generated/
 secrets/
 # **/notebook*/
 cache/
+data/
