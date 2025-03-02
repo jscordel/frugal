@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "frugal"
+version = "1.0.0"
+authors = [
+    {name = "Chiara", email = "chiara@chiara.com"},
+    {name = "Martin", email = "martin@martin.com"},
+    {name = "Jules", email = "jules.scordel@gmail.com"},
+    {name = "Alexandre", email = "alexandre@alexandre.com"}
+]
+readme = "README.md"
+requires-python=">=3.10.6"
+description = "Climate disinformation detection."
+keywords = [
+    "NLP",
+    "frugal",
+    "climate disinformation"
+]
+
+dependencies = [
+    "python-dotenv",    # Handles dotfiles
+    "tensorflow",       # Neural networks
+    "scikit-learn",     # Machine learning
+    "nltk",             # Natural language processing
+    "datasets",         # Datasets
+    "matplotlib",        # Plotting
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",            # Code format
+    "flake8"            # Code linter
+]
+test = [
+    "pytest"            # Unit tests
+]
+
+[project.scripts]
+package-hello = "package.cli.cli_main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
