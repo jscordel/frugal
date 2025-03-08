@@ -4,7 +4,7 @@ pyenv-setup:
 	pyenv local frugal
 
 env-setup:
-	cp .env.template .env
+	cp template.env .env
 
 activate:
 	pyenv activate frugal
