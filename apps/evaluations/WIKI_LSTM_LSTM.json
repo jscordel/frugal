@@ -1,0 +1,71 @@
+{
+    "model_name": "WIKI_LSTM_LSTM",
+    "test_loss": 1.5597648620605469,
+    "test_accuracy": 0.42411813139915466,
+    "classification_report": {
+        "0": {
+            "precision": 0.5524079320113314,
+            "recall": 0.6351791530944625,
+            "f1-score": 0.5909090909090909,
+            "support": 307.0
+        },
+        "1": {
+            "precision": 0.5081081081081081,
+            "recall": 0.6103896103896104,
+            "f1-score": 0.5545722713864307,
+            "support": 154.0
+        },
+        "2": {
+            "precision": 0.292817679558011,
+            "recall": 0.38686131386861317,
+            "f1-score": 0.3333333333333333,
+            "support": 137.0
+        },
+        "3": {
+            "precision": 0.4,
+            "recall": 0.061855670103092786,
+            "f1-score": 0.10714285714285714,
+            "support": 97.0
+        },
+        "4": {
+            "precision": 0.42328042328042326,
+            "recall": 0.5,
+            "f1-score": 0.4584527220630373,
+            "support": 160.0
+        },
+        "5": {
+            "precision": 0.3023255813953488,
+            "recall": 0.40625,
+            "f1-score": 0.3466666666666667,
+            "support": 160.0
+        },
+        "6": {
+            "precision": 0.2962962962962963,
+            "recall": 0.17266187050359713,
+            "f1-score": 0.21818181818181817,
+            "support": 139.0
+        },
+        "7": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1-score": 0.0,
+            "support": 65.0
+        },
+        "accuracy": 0.42411812961443807,
+        "macro avg": {
+            "precision": 0.3469045025811899,
+            "recall": 0.346649702244922,
+            "f1-score": 0.32615734496040427,
+            "support": 1219.0
+        },
+        "weighted avg": {
+            "precision": 0.39707633454379293,
+            "recall": 0.42411812961443807,
+            "f1-score": 0.39542175507477473,
+            "support": 1219.0
+        }
+    },
+    "parameters": {
+        "layer_1_model": "<Masking name=masking, built=True>"
+    }
+}
