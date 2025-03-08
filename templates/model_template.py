@@ -1,8 +1,14 @@
 from frugal.data.data import load_data, make_data_lists
 from frugal.evaluation import evaluate
-
+import os
 
 def main():
+    # Get the directory of the current script
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    # Get the name of the folder
+    model_name = os.path.basename(script_directory)
+    print(model_name)
+
     # Load datasets and make data lists
     X_train, X_test, y_train, y_test = load_data()
     # Train and predict with model
