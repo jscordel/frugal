@@ -4,12 +4,13 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
 
-# à mettre dans une fonction à part dans le dossier data c^ preprocessor.py
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('punkt_tab')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+def nltk_downloads():
+#Download necessary NLTK data files
+    nltk.download('stopwords', quiet=True)
+    nltk.download('punkt', quiet=True)
+    nltk.download('punkt_tab', quiet=True)
+    nltk.download('wordnet', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
 
 def preprocess_text(text):
     """
@@ -18,6 +19,8 @@ def preprocess_text(text):
 
     Stopwords are intentionally kept to preserve negation.
     """
+    nltk_downloads()
+
     # Pre-cleaning
     text = text.lower()
     text = ''.join(char for char in text if not char.isdigit())
