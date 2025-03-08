@@ -1,6 +1,7 @@
 from frugal.data.data import load_data, make_data_lists
 from frugal.evaluation import evaluate
-
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
 
 def main():
     # Load datasets and make data lists
