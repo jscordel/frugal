@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 from frugal.data_preproc.data import load_data
+=======
+from frugal.data_preproc.data import load_and_split_data
+>>>>>>> main
 from frugal.data_preproc.preprocessor import preprocess_text
 from frugal.evaluation import evaluate
 

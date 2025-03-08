@@ -1,6 +1,6 @@
 from datasets import load_dataset
 from frugal.config.environment import DATA_DIR
-from frugal.data.preprocessor import preprocess_text
+from frugal.data_preproc.preprocessor import preprocess_text
 from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 
