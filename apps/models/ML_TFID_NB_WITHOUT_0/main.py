@@ -1,4 +1,5 @@
 from frugal.data_preproc.data import load_and_split_data , load_datasets ,make_train_test_split
+from frugal.data_preproc.preprocessor import pre_clean_data
 from frugal.evaluation import evaluate, concatenate_evaluations , classification_report
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -19,6 +20,16 @@ def load_and_split_data_withou_class_n(filtered_class : str):
     X_train_filtered, X_test_filtered, y_train_filtered, y_test_filtered = make_train_test_split(train_dataset_filtered,test_dataset_filtered)
     return X_train_filtered, X_test_filtered, y_train_filtered, y_test_filtered
 
+""" def pre_clean_data(data : pd.DataFrame):
+    def clean_one_quote(quote : str):
+        # Pre-cleaning
+        text = text.lower()
+        text = ''.join(char for char in text if not char.isdigit())
+        for punctuation in string.punctuation:
+            text = text.replace(punctuation, '')
+        text = text.strip()
+
+    data.map(clean_one_quote()) """
 
 def main():
     # Get the directory of the current script
@@ -32,6 +43,10 @@ def main():
 
     #print(len(X_train)+ len(X_test))
 
+    # Clean
+
+    X_train, X_test = X_train.map(pre_clean_data), X_test.map(pre_clean_data)
+
     # Train and predict with model
     y_pred = tfidf(X_train, X_test, y_train)
     # Get model performance
@@ -42,7 +57,7 @@ def main():
 
 def tfidf(X_train, X_test, y_train) :
     # Vectorisation
-    vectorizer = TfidfVectorizer()
+    vectorizer = TfidfVectorizer(stop_words="english")
     X_train_vec = vectorizer.fit_transform(X_train.quote)
     X_test_vec = vectorizer.transform(X_test.quote)
     # Training

@@ -3,6 +3,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import nltk
+import pandas as pd
 
 def nltk_downloads():
 #Download necessary NLTK data files
@@ -11,6 +12,21 @@ def nltk_downloads():
     nltk.download('punkt_tab', quiet=True)
     nltk.download('wordnet', quiet=True)
     nltk.download('omw-1.4', quiet=True)
+
+def pre_clean_data(data : pd.DataFrame):
+
+    """ Only clean text in a DataFrame or line by line without preprocessing (no tokennizer no Lemmmentizer )"""
+    # Pre-cleaning
+    text_cleaned = data.lower()
+    text_cleaned = ''.join(char for char in text_cleaned if not char.isdigit())
+    for punctuation in string.punctuation:
+        text_cleaned = text_cleaned.replace(punctuation, '')
+    text_cleaned = text_cleaned.strip()
+
+
+
+    return text_cleaned
+
 
 def preprocess_text(text):
     """
