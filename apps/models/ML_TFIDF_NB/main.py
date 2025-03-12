@@ -8,7 +8,7 @@ from frugal.evaluation import evaluate
 
 def main():
     # Load datasets and make data lists
-    X_train, X_test, y_train, y_test = load_data()
+    X_train, X_test, y_train, y_test = load_and_split_data()
     # Train and predict with model
     y_pred = dummy_model(X_train, X_test, y_train)
     # Get model performance

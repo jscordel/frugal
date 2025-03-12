@@ -18,8 +18,7 @@ def main():
     y_pred = dummy_model(X_train, X_test, y_train)
     # Get model performance
     evaluate(model_name, y_test, y_pred)
-    # Concatenate all evaluations
-    concatenate_evaluations()
+
 
 
 def dummy_model(X_train, X_test, y_train) :
