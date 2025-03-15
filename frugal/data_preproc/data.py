@@ -11,7 +11,7 @@ def load_datasets():
     train_dataset = pd.DataFrame(load_dataset('QuotaClimat/frugalaichallenge-text-train', split='train', cache_dir=DATA_DIR))
     test_dataset = pd.DataFrame(load_dataset('QuotaClimat/frugalaichallenge-text-train', split='test', cache_dir=DATA_DIR))
 
-    print("✅ Train and test datasets successfully loaded from Hugging Face 🤗")
+    print("✅ Datasets successfully loaded from Hugging Face 🤗")
     return train_dataset, test_dataset
 
 def make_train_test_split(train_dataset, test_dataset):
@@ -52,12 +52,12 @@ def encoding_and_preproc(X_train, X_test, y_train, y_test):
     return X_train_preproc, X_test_preproc, y_train_encoded, y_test_encoded
 
 # Test
-if __name__ == "__main__":
-    X_train, X_test, y_train, y_test = load_and_split_data()
-    X_train_preproc, X_test_preproc, y_train_encoded, y_test_encoded = encoding_and_preproc(X_train, X_test, y_train, y_test)
+# if __name__ == "__main__":
+#     X_train, X_test, y_train, y_test = load_and_split_data()
+#     X_train_preproc, X_test_preproc, y_train_encoded, y_test_encoded = encoding_and_preproc(X_train, X_test, y_train, y_test)
 
-    print("\n🔍 Preview of preprocessed training data (first 3 rows):")
-    print(X_train_preproc.head(3))
-    print("\nData type of preprocessed training set:", type(X_train_preproc))
-    print("\nExample encoded label from y_train_encoded:", y_train_encoded[0])
-    print("Data type of encoded labels:", type(y_train_encoded))
+#     print("\n🔍 Preview of preprocessed training data (first 3 rows):")
+#     print(X_train_preproc.head(3))
+#     print("\nData type of preprocessed training set:", type(X_train_preproc))
+#     print("\nExample encoded label from y_train_encoded:", y_train_encoded[0])
+#     print("Data type of encoded labels:", type(y_train_encoded))
