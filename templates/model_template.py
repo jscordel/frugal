@@ -1,4 +1,4 @@
-from frugal.data.data import load_data, make_data_lists
+from frugal.data_preproc.data import load_data, make_data_lists
 from frugal.evaluation import evaluate
 import os
 
