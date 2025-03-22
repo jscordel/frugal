@@ -3,28 +3,23 @@ from sklearn.metrics import (
     precision_score,
     recall_score,
     f1_score,
-    classification_report
+    classification_report,
+    confusion_matrix,
+    ConfusionMatrixDisplay
     )
 import json
 import os
 import seaborn as sns
 import pandas as pd
 import datetime
-import numpy as np
-import ast
 
-# from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+def evaluate(model_name : str,
+             y_test : pd.Series,
+             y_pred : pd.Series,
+             model_emissions : float):
 
-# def confusion_matrix_plot(y_test, y_pred):
-#     cm = confusion_matrix(y_test, y_pred)
-#     disp = ConfusionMatrixDisplay(confusion_matrix=cm) # ajouter si besoin le paramètre : display_labels=ordinal_values
-#     disp.plot()
-#     plt.show()
-
-def evaluate(model_name, y_test, y_pred, model_emissions):
     # ----------------
     # Prepare evaluation framework
-
     # Ensure evaluation directory exists otherwise it will be created
     eval_dir = "apps/evaluations"
     os.makedirs(eval_dir, exist_ok=True)
@@ -33,10 +28,8 @@ def evaluate(model_name, y_test, y_pred, model_emissions):
     filename = model_name
     filename_path = os.path.join(eval_dir, filename + ".json")
 
-
     # ---------------
     # Make evaluation data
-
     if not (len(y_test) == len(y_pred)):
         raise ValueError(f"Length mismatch: y_test({len(y_test)}), y_pred({len(y_pred)})")
 
@@ -61,12 +54,14 @@ def evaluate(model_name, y_test, y_pred, model_emissions):
         }
 
     # Get category labels (sorted for consistency)
+    # --> OK POUR SUPPRIMER SI POSE PB AVEC LE TRAITEMENT DE Y_TEST DE CERTAINS MODELES
     category_names = sorted(pd.Series(y_test).unique())
-    # Compute per-CATEGORY metrics --- maybe better to reuse 'report' to ensure harmonised results, but this is a quick fix
+
+    # Compute CATEGORY metrics --- better to reuse 'report' to ensure harmonised results, but this is a quick fix
     precision = precision_score(y_test, y_pred, average=None, labels=category_names, zero_division=0)
     recall = recall_score(y_test, y_pred, average=None, labels=category_names, zero_division=0)
     f1 = f1_score(y_test, y_pred, average=None, labels=category_names, zero_division=0)
-    # Store per-CATEGORY metrics
+    # Store CATEGORY metrics
     category_df = pd.DataFrame({
         "Cat Names": category_names,
         "Cat Precision": precision,
@@ -81,10 +76,8 @@ def evaluate(model_name, y_test, y_pred, model_emissions):
     # Compile macro metrics & category metrics
     macro_metrics.update(category_data)
 
-
     # ---------------
     # Save evaluation data
-
     # Convert and save the metrics to a JSON
     with open(filename_path, "w") as f:
         json.dump(macro_metrics, f, indent=4, default=str)
@@ -114,36 +107,62 @@ def concatenate_evaluations():
 
     # Convert the concatenated dictionary to a DataFrame
     concatenated_data_df = pd.DataFrame.from_dict(concatenated_data)
-
-    print(concatenated_data_df)
-    concatenated_data_df.to_csv('concatenated_data.csv')
+    #concatenated_data_df.to_csv('concatenated_data.csv')
 
     return concatenated_data_df
 
 
-def global_model_comparison(df):
+def global_frugal_perf_comparison(df):
+    # - NEED TO ADD A BASELINE FOR EMISSIONS
+    models = df['Model name']
+    f1_scores = df['Macro F1 Score']
+    emissions = df['Model Emissions']
+    inverse_emissions = [1/x for x in emissions] # better for visualization
+
+    plt.figure(figsize=(10, 5))
+    plt.scatter(inverse_emissions, f1_scores, marker='o', color='blue')
+
+    # Annotate each point with the model name
+    for i, model in enumerate(models):
+        plt.annotate(model, (inverse_emissions[i], f1_scores[i]), textcoords="offset points", xytext=(5,5), ha='right')
+
+    # Set labels and title
+    plt.xlabel('Frugality (1/gCO2eq)')
+    plt.ylabel('F1 Score')
+    plt.title('F1 Score vs Emissions. Best in top right corner')
+
+    # Show the plot
+    plt.grid(True)
+    plt.show()
+
+
+def global_perf_comparison(df):
     # Set baseline
     baseline = 0.125 # corresponds to 1/8
 
+    models = df['Model name']
+    # Plot the Macro performance metrics
     plt.figure(figsize=(8, 5))
-    plt.plot(df['Model name'], df['Macro F1 Score'], marker='o', label='F1 Score',linestyle='')
-    plt.plot(df['Model name'], df['Macro Precision'], marker='s', label='Precision', linestyle='')
-    plt.plot(df['Model name'], df['Macro Recall'], marker='^', label='Recall', linestyle='')
+    plt.plot(models, df['Macro F1 Score'], marker='o', label='F1 Score',linestyle='')
+    plt.plot(models, df['Macro Precision'], marker='s', label='Precision', linestyle='')
+    plt.plot(models, df['Macro Recall'], marker='^', label='Recall', linestyle='')
 
     # Add Baseline values
     plt.axhline(y=baseline, color='r', linestyle='--', label=f'Baseline ({baseline})')
+
+    # Set labels and title
     plt.xlabel("Models")
     plt.ylabel("Score")
     plt.title("Performance Metrics per Model")
     plt.legend()
-    plt.grid(True)
 
-    print()
+    # Show the plot
+    plt.grid(True)
     plt.show()
 
 
 def global_class_comparison(df):
-    # MAKE heatmaps for each performance metric, for each class and models
+    # Make heatmaps for each performance metric, for each class and models
     precision_data_corrected = {}
     recalll_data_corrected = {}
     f1_data_corrected = {}
@@ -180,26 +199,42 @@ def global_class_comparison(df):
     recalll_df_corrected = pd.DataFrame(recalll_data_corrected).T
     f1_df_corrected = pd.DataFrame(f1_data_corrected).T
 
-
     # Plot the heatmap
     fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
     sns.heatmap(precision_df_corrected, ax=axes[0], cmap='coolwarm', annot=True)
-    axes[0].set_title('Precision 🎯')
+    axes[0].set_title("Precision")
 
     sns.heatmap(recalll_df_corrected, ax=axes[1], cmap='coolwarm', annot=True)
-    axes[1].set_title('Recall ✅')
+    axes[1].set_title("Recall")
 
     sns.heatmap(f1_df_corrected, ax=axes[2], cmap='coolwarm', annot=True)
-    axes[2].set_title('F1 🏎️')
+    axes[2].set_title("F1")
 
     plt.tight_layout()
     plt.show()
 
 
+def confusion_matrix_plot(y_test, y_pred):
+    cm = confusion_matrix(y_test, y_pred)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm) # ajouter si besoin le paramètre : display_labels=ordinal_values
+    disp.plot()
+    plt.show()
+
+
+def run_comparisons():
+    # Concatenate all evaluations
+    global_data_df = concatenate_evaluations()
+
+    # Global model and class performance comparison
+    global_frugal_perf_comparison(global_data_df)
+    global_perf_comparison(global_data_df)
+    global_class_comparison(global_data_df)
+
 
 if __name__ == "__main__":
     global_data_df = concatenate_evaluations()
     # Global model and class performance comparison
-    global_model_comparison(global_data_df)
+    global_frugal_perf_comparison(global_data_df)
+    global_perf_comparison(global_data_df)
     global_class_comparison(global_data_df)

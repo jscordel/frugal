@@ -48,7 +48,7 @@ def encoding_and_preproc(X_train, X_test, y_train, y_test):
     y_train_encoded = label_encoder.fit_transform(y_train)
     y_test_encoded = label_encoder.transform(y_test)
 
-    print("✅ Features preprocessed and labels encoded successfully")
+    print("✅ Features successfully preprocessed and labels encoded ")
     return X_train_preproc, X_test_preproc, y_train_encoded, y_test_encoded
 
 # Test
