@@ -170,3 +170,5 @@ secrets/
 # **/notebook*/
 cache/
 data/
+*.csv
+*.txt

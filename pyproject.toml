@@ -27,6 +27,12 @@ dependencies = [
     "nltk",             # Natural language processing
     "datasets",         # Datasets
     "matplotlib",        # Plotting
+    "seaborn",           # Plotting
+    "pandas",            # Data manipulation
+    "numpy",             # Data manipulation
+    "codecarbon",        # Carbon footprint tracking
+    "transformers",      # Huggingface transformers
+    "plotly",            # Plotting
 ]
 
 [project.optional-dependencies]

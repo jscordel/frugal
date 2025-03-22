@@ -36,9 +36,3 @@ def preprocess_text(text):
     text = [lemmatizer.lemmatize(word) for word in text]
 
     return text
-
-# Test:
-if __name__ == "__main__":
-    sample_text = "Global Warming? Tell that to the southern districts that woke up to negative 10 degrees this morning."
-    processed = preprocess_text(sample_text)
-    print(processed)
