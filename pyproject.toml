@@ -33,6 +33,7 @@ dependencies = [
     "codecarbon",        # Carbon footprint tracking
     "transformers",      # Huggingface transformers
     "plotly",            # Plotting
+    "gensim",            # Word embeddings
 ]
 
 [project.optional-dependencies]
