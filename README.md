@@ -8,6 +8,9 @@ The best performing models are the BERT-based ones, especially the ones fine-tun
 Theses models are not the most frugal compared to ML ones (produces 3 to 4 orders of magnitude more CO2eq), but these emissions are still neglible in the absolute. The only case where this could become an issue is if the volume of requests (thus inferences) would be huge.  
 Having a very low volume of requests in the case of this reasearch oriented project, it is totally acceptable as it allows to have a 24% increase in accuracy, reaching 0.91 with our best DL model (roBERTa on synthetic data), vs 0.69 for our best ML model (TF-IDF).  
 
+Presentation pitch: [Canva slides](https://www.canva.com/design/DAGii2yf_0c/OgKSRtWmvg-1ZKcFV8Vlew/edit)  
+
+
 ## Setup
 
 ### Configure python.
